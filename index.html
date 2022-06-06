@@ -1,0 +1,163 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="The smash hit game! Move mouse to control your cell and eat smaller cells than you to grow larger!">
+	<meta name="keywords" content="eatme, eatmegame, eat me, agario, agar, io, agario oyna, agar oyna, cell, cells, virus, bacteria, blob, game, games, web game, html5, fun, flash">
+	<meta name="language" content="English"/>
+	<meta name="robots" content="index, follow">
+    <meta property="og:title" content="EatMe | EatMe Game, Agar Io"/>
+    <meta property="og:description" content="The smash hit game! Control your cell and eat other players to grow larger! Play with millions of players around the world and try to become the biggest cell of all!"/>
+    <meta property="og:url" content="http://eatmegame.tk"/>
+    <meta property="og:type" content="website"/>
+
+<title>Online EatMe Game</title>
+
+<link rel="shortcut icon" type="image/x-icon" href="img/iconL.ico" />
+
+	<script src="js/jquery-latest.min.js"></script>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/BrwserCheck.js"></script>
+	<script src="js/GameSS.js"></script>
+
+	<link href='css/gamemax.css' rel='stylesheet' type='text/css'/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script type="text/javascript">
+		$(document).ready(function() {
+		if(isCanvasSupported())
+		cg.init()
+			else
+		$(document.body).html("<style type='text/css'>p {text-align: center} body {padding: 10px}</style><p>Hi dear user. Your browser does not support HTML5, which is required to run this game.</p><p>We recommend Google Chrome <br /><a href='http://www.google.com/chrome'><img src='https://images.sftcdn.net/images/t_optimized,f_auto/p/f875d630-96d4-11e6-b152-00163ed833e7/617910509/chrome-logo.png' /></a></p>")
+		})
+		</script>
+</head>
+
+
+
+<body>
+
+	<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0&appId=1726930277358388&autoLogAppEvents=1';
+		  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+	<canvas width="1366" height="613" style="cursor: default;">
+        
+	</canvas>
+	
+    <div class="score noselect">
+        <p>Score: <span id="myscore">0</span></p>
+    </div>
+    
+    <div class="alertMsg noselect">
+    </div>
+    
+    <div class="chatBoard noselect">
+            </div>
+	
+	<div id="overlays" style="position: absolute; left: 0;right:0; top:0; bottom:0; background-color: rgba(0,0,0,0.5); z-index: 200;">
+	<div id="helloDialog">
+    <div id="info">
+	<p style="text-align:center;font-weight:bold;color:red;font-size:14px;">Advertisement</p>
+	<ul>
+	<li style="font-weight:bold;font-size:14px;color:blue">Hi, Welcome to EatMe Game</li>
+	<li style="font-weight:bold;font-size:14px;color:green">Version 3.14✔</li>
+	<li style="font-weight:bold;font-size:14px;color:cyan">Enjoy, Have a nice game!</li>
+	</ul>
+	<div align="center">
+		<img id="thumbup" width="150px" src="img/thumb.png" draggable="false" />
+	</div>
+	<div style="margin:1px 2px;" class="fb-like" data-href="https://www.facebook.com/agarmencom" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+	<span style="float:right;"><a href="http://agarmen.com">Play Agarmen</a></span>
+	</div>
+	<span id="scores"></span>
+        <form role="form">
+            <div class="form-group">
+
+                <div style="align:center; margin-left: 20px;">
+				<!--====LogoPanel====-->
+				<div align="center">
+				
+				<a href="#">
+			
+				<img draggable="false" id="" alt="AgarMeLogo" title="AgarMen.Com / EatMe Game" src="img/panel.png">
+				</a>
+				</div>
+				
+				</div>
+			
+            </div>
+			<style>
+			
+			
+			</style>
+			
+            <div class="form-group">
+			<center>
+                <input onkeyup="verifyNick(this)" id="nick" class="form-control" placeholder="Enter Nick ..." value="" maxlength="18" />
+                <span id="alert" style="font-weight:bold;color:red"></span>
+			</center>
+			</div>
+
+	
+		<button style="width: 100%;border-radius:15px;background-color:#00bfff;" type="submit" id="playBtn" onclick="playButton(); return false;" >
+				<img src="img/playbtn.gif" width="70" height="60" draggable="false" ><label style="font-size:20px;">Play</label>
+                </button>
+           
+            <div>
+               <hr/>
+			   <button style="width: 100%; background-color:red;border-radius:5px;" onclick="$('#settings, #instructions').toggle();return false;"
+                        class="btn btn-info btn-settings">
+						<i class="glyphicon glyphicon-cog"></i>
+				</button>
+
+            </div>
+
+            <div id="settings" class="checkbox" style="display:none; text-align:center;">
+                <div class="form-group" id="mainform">
+				      <div class="row">
+                        <div class="col-md-6"><label><input id="showColor" type="checkbox" onchange="setHideChat($(this).is(':checked'));"> Hide chat </label></div>
+                        <div class="col-md-6"><label><input id="showScore" type="checkbox" checked onchange="setShowMass($(this).is(':checked'));"> Show PTS </label></div>
+                        <div class="col-md-6"><label><input id="showLightTheme" type="checkbox" onchange="changeTheme($(this).is(':checked'));"> Light theme </label></div>
+                        <div class="col-md-6"><label><input id="transparent" type="checkbox" onchange="setTransparent($(this).is(':checked'));"> Speed 3x </label></div>
+                    </div>
+	
+					</div>
+				</div>
+        </form>
+
+					   <div id="instructions">
+					   <center>
+					   <p>
+					   Move mouse to control your cell and eat smaller cells than you to grow up
+					   </p>
+					   <!-- COUNTER -->
+				
+					<span target='_blank' style='font-family:Comic Sans MS;font-size:20px;font-weight:bold;text-shadow:1px 1px red;color:black;'>18 online now</span>
+					<!-- COUNTER -->
+					   </center>
+					   </div>
+</div>
+
+</div>
+
+
+
+<!-- <canvas id="chatcanvas" width="300" height="100"></canvas> -->
+
+<script type="text/javascript">
+setInterval(function(){
+	
+	$("#thumbup").fadeOut(function(){
+		$("#thumbup").stop(true, true).fadeIn("slow");
+	});
+},5000);
+    
+</script>
+		<input type="text" onkeydown="checkKey(event)" id="chat_textbox" maxlength="115" placeholder="Enter message"/> 
+</body>
+</html>
